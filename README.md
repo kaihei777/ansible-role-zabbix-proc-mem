@@ -50,7 +50,7 @@ Example Zabbix Custom Template
 ----------------
 
 See. 
-[Zabbix Custom Template](sample/zabbix/Custom_Template_Proc_memory.xml)
+[Sample Zabbix Custom Template](sample/zabbix/Custom_Template_Proc_memory.xml)
 
 
 License
