@@ -1,0 +1,8 @@
+---
+# tasks file for ansible-role-zabbix-proc-mem
+
+- name: zabbix-proc_mem-script Create target directory
+  file: path={{ zabbix_agent_externalscriptspath }} state=directory mode=0755
+
+- name: zabbix-proc_mem-script
+  template: src=proc_mem.sh.j2 dest={{ zabbix_agent_externalscriptspath }}/proc_mem.sh mode=0655

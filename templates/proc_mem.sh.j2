@@ -1,0 +1,62 @@
+#!/bin/bash
+ 
+[ -z "$1" ] && COMM='.*' || COMM="$1"
+[ -z "$2" ] && EUSER='.*' || EUSER="$2"
+[ -z "$3" ] && MODE='sum' || MODE="$3"
+[ -z "$4" ] && ARGS_PATTERN='.*' || ARGS_PATTERN="$4"
+ 
+PLIST=$( ps -eo rss,comm,euser,args --no-headers )
+ 
+case "${MODE}" in
+ "min")
+   echo "${PLIST}" \
+     | awk -v comm="^${COMM}$" -v euser="^${EUSER}$" -v   args_pattern="${ARGS_PATTERN}" \
+       'BEGIN {MIN=0;CNT=0}{
+          if (($2 ~ comm) && ($3 ~ euser)){
+            args="";
+            for(i=4;i<=NF;i++){args=args""$i}; if (args ~ args_pattern) { if (CNT == 0) { MIN=$1;CNT+=1 } else if ( MIN &amp;gt; $1 ) { MIN=$1 }
+            }
+          }
+        } END {print MIN}'
+ ;;
+ "max")
+   echo "${PLIST}" \
+     | awk -v comm="^${COMM}$" -v euser="^${EUSER}$" -v args_pattern="${ARGS_PATTERN}" \
+       'BEGIN {MAX=0}{
+          if (($2 ~ comm) && ($3 ~ euser)){
+            args="";
+            for(i=4;i<=NF;i++){args=args""$i};
+            if (args ~ args_pattern) {
+              if (MAX &amp;lt; $1) { MAX=$1 }
+            }
+          }
+        } END {print MAX}'
+ ;;
+ "avg")
+   echo "${PLIST}" \
+     | awk -v comm="^${COMM}$" -v euser="^${EUSER}$" -v args_pattern="${ARGS_PATTERN}" \
+       'BEGIN {SUM=0;CNT=0}{
+          if (($2 ~ comm) && ($3 ~ euser)){
+            args="";
+            for(i=4;i<=NF;i++){args=args""$i};
+            if (args ~ args_pattern) { SUM+=$1;CNT+=1 }
+          }
+        } END {printf("%d\n", SUM/CNT)}'
+ ;;
+ "sum")
+   echo "${PLIST}" \
+     | awk -v comm="^${COMM}$" -v euser="^${EUSER}$" -v args_pattern="${ARGS_PATTERN}" \
+       'BEGIN {SUM=0}{
+          if (($2 ~ comm) && ($3 ~ euser)){
+            args="";
+            for(i=4;i<=NF;i++){args=args""$i};
+            if (args ~ args_pattern) { SUM+=$1 }
+          }
+        } END {print SUM}'
+ ;;
+ *)
+   exit 1
+ ;;
+esac
+ 
+exit 0

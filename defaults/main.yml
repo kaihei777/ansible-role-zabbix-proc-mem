@@ -1,0 +1,4 @@
+---
+# defaults file for ansible-role-zabbix-proc-mem
+
+zabbix_agent_externalscriptspath: /usr/lib/zabbix/externalscripts
