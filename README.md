@@ -2,7 +2,7 @@ ansible_role_zabbix_proc_mem
 
 =========
 
-Installs the zabbix agent process memory
+Installs the zabbix agent process memory scripts
 
 Galaxy link
 ------------
