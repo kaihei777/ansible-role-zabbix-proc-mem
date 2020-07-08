@@ -46,6 +46,13 @@ Including an example of how to use your role (for instance, with variables passe
       roles:
          - { role: kaihei777.ansible_role_zabbix_proc_mem }
 
+Example Zabbix Custom Template
+----------------
+
+See. 
+[Zabbix Custom Template](sample/zabbix/Custom_Template_Proc_memory.xml)
+
+
 License
 -------
 
